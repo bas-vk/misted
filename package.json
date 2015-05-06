@@ -1,0 +1,16 @@
+{
+	"name": "mist",
+	"version": "0.0.1",
+	"description": "Ethereum client",
+	"main": "index.html",
+
+	"window": {
+		"toolbar": false,
+		"width": 800,
+		"height": 500
+	},
+
+	"dependencies": {
+		"ws" : "^0.4.5"
+	}
+}
