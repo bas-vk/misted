@@ -3,29 +3,40 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
-<head>
-  <title>Mist</title>
-  <link rel="stylesheet" href="./css/mist.css">
-</head>
+	<head>
+	  <title>Misted</title>
+	  <link rel="stylesheet" href="./css/mist.css">
+	</head>
 
-<body>
+	<body>
 
-	<script src="./js/jquery-2.1.4.min.js"></script>
-	<script src="./js/mist.js"></script>
+		<script src="./js/jquery-2.1.4.min.js"></script>
+		<script src="./js/mist.js"></script>
 
-	<button id="startGethBtn">Start geth</button>
-	<button id="stopGethBtn">Stop geth</button>
-	<button id="startMinerBtn">Start miner</button>
-	<button id="stopMinerBtn">Stop miner</button>
-  
-  	<p>
-  		<span>Blockchain</span>
-  		<div id="blockchain"></div>
-  	</p>
-  	<p>
-		<span>Geth log</span>
-		<div id="gethlog"></div>
-	</p>
-</body>
-
+		<p>
+			<button id="startGethBtn">Start geth</button>
+			<button id="stopGethBtn">Stop geth</button>
+			<button id="openGethWebsocket">Connect with geth</button>
+			<button id="closeGethWebsocket">Disconnect from geth</button>
+			<button id="loadWalletDappBtn">Load wallet DAPP</button>
+			<button id="startMinerBtn">Start miner</button>
+			<button id="stopMinerBtn">Stop miner</button>
+			<button id="getHashrateBtn">Hashrate</button>
+			<input  id="hashrate" type="number" readonly></input>
+			<button id="toggleEventsBtn">Toggle events</button>
+			<button id="toggleLogBtn">Toggle log</button>
+			<div id="wsstatus">disconnected</div>
+		</p>
+		<p>
+			<iframe id="dapp-wallet" nwdisable nwfaketop nwUserAgent width="100%" height="200"></iframe>
+		</p>  
+	  	<p class="gethEvents">
+	  		<span class="gethEvents">Blockchain events (ws://)</span>
+	  		<div class="gethEvents logging" id="eventlog"></div>
+	  	</p>
+	  	<p class="logPart">
+			<span class="logPart">Geth log (stderr)</span>
+			<div class="logPart logging" id="gethlog"></div>
+		</p>
+	</body>
 </html>

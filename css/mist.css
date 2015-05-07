@@ -2,6 +2,10 @@ body {
 	background-color: #ffffff;
 }
 
-#gethlog {
+#hashrate {
+	width: 75px;
+}
+
+.logging {
 	font-family: monospace;
 }
