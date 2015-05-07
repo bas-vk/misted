@@ -1,17 +1,31 @@
 $(function() {
 
 	var accessToken = "";
+	var gethLog = [];
+	var maxGethLog = 10;
 
 	var crypto = require('crypto');
 
 	function newAccessToken(len) {
-		return crypto.randomBytes(Math.ceil(16))
-			.toString('hex'); // convert to hexadecimal format
+		return crypto.randomBytes(Math.ceil(16)).toString('hex'); // convert to hexadecimal format
+	}
+
+	function updateGethLog(line) {
+		gethLog.push(line);
+		if (gethLog.length > maxGethLog) {
+				gethLog.shift();
+		}
+
+		var logs = ""
+		gethLog.reverse().forEach(function(log) {
+			logs += log + "<br />";
+		})
+
+		$("#gethlog").html(logs);
 	}
 
 	$("#startGethBtn").click(function() {
-
-		var exec = require('child_process').exec;
+		var spawn = require('child_process').spawn;
 		environ = {};
 		for (v in process.env) {
 			environ[v] = process.env[v];
@@ -20,7 +34,15 @@ $(function() {
 		accessToken = newAccessToken();
 		environ["accessToken"] = accessToken;
 
-		exec('geth --rpcport 8686 --port=31313 --datadir $HOME/tmp/ethereum1 mist 2> /dev/pts/4', {env: environ});
+		geth = spawn("geth", ["--rpcport=8686", "--port=31313", "--datadir=$HOME/tmp/ethereum1", "mist"], {env: environ});
+
+		geth.stderr.on("data", function(line) {
+			updateGethLog(line);
+		});
+
+		geth.stdin.on("data", function(line) {
+			updateGethLog(line);
+		});
 	});
 
 	$("#stopGethBtn").click(function() {
