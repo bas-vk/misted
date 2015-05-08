@@ -5,7 +5,7 @@ $(function() {
 	var gethLog = [];
 	var maxGethLog = 10;
 	var eventLog = [];
-	var maxEventLog = 10;
+	var maxEventLog = 5;
 	var gethWebSocket = null;
 	// number of retries to connect to geth before giving up
 	var maxRetries = 3;
@@ -17,15 +17,16 @@ $(function() {
 	}
 
 	function handleEvent(event) {
-		eventLog.push(event);
+		eventLog.unshift(event);
 		if (eventLog.length > maxEventLog) {
-			eventLog.shift();
+			eventLog.pop();
 		}
 
-		var events = "";
-		eventLog.reverse().forEach(function(ev) {
-			events += JSON.stringify(ev) + "<br />";
+		var events = "<ul>";
+		eventLog.forEach(function(ev) {
+			events += "<li>" + JSON.stringify(ev) + "</li>";
 		});
+		events += "</ul>";
 
 		$("#eventlog").html(events);
 	}
@@ -46,15 +47,16 @@ $(function() {
 	}
 
 	function updateGethLog(line) {
-		gethLog.push(line);
+		gethLog.unshift(line);
 		if (gethLog.length > maxGethLog) {
-				gethLog.shift();
+				gethLog.pop();
 		}
 
-		var logs = ""
-		gethLog.reverse().forEach(function(log) {
-			logs += log + "<br />";
+		var logs = "<ul>"
+		gethLog.forEach(function(log) {
+			logs += "<li>" + log + "</li>";
 		})
+		logs += "</ul>"
 
 		$("#gethlog").html(logs);
 	}
