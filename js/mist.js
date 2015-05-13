@@ -1,5 +1,14 @@
-$(function() {
+function chooseFile(name, callback) {
+    var chooser = $(name);
+    chooser.change(function(evt) {
+        callback($(this).val());
+    });
+    
+    chooser.trigger('click');
+}
 
+$(function() {
+        
 	var accessToken = "";
 	var accessTokenLength = 16;
 	var gethLog = [];
@@ -11,7 +20,13 @@ $(function() {
 	var maxRetries = 3;
 
 	var crypto = require('crypto');
-
+    
+    $(window).on('resize', function(){
+        var win = $(this); //this = window
+        var dappHeight = win.height() * 0.8;
+        $("#dapp-wallet").height = dappHeight;
+    });
+ 
 	function newAccessToken(len) {
 		return crypto.randomBytes(Math.ceil(accessTokenLength)).toString('hex'); // convert to hexadecimal format
 	}
@@ -79,12 +94,17 @@ $(function() {
 			openGethWebSocket();
 		});
 
-		gethWebSocket.on("error", function() {
-			$("#wsstatus").html("error");
+		gethWebSocket.on("error", function(e) {
+			$("#wsstatus").html("error: " + e);
 		});
 
 		gethWebSocket.on("open", function() {
 			$("#wsstatus").html("connected");
+            // reload all dapps
+            $("iframe").each(function(frm) {
+               var src = $(this).attr("src");
+               $(this).attr("src", src);
+            });
 		});
 	};
 
@@ -132,8 +152,10 @@ $(function() {
 	});
 
 	$("#stopGethBtn").click(function() {
-		gethWebSocket.send('{"jsonws":"0.0.1","method":"quit","params":[],"id":1}');
-		geth.close();
+        if (gethWebSocket != null) {
+            gethWebSocket.send('{"wsjson":"0.0.1","method":"quit","params":[],"id":1}');
+            gethWebSocket.close();
+        }
 	});
 
 	$("#loadWalletDappBtn").click(function() {
@@ -141,15 +163,26 @@ $(function() {
 	});
 	
 	$("#startMinerBtn").click(function() {
-		gethWebSocket.send('{"jsonrpc":"0.0.1","method":"miner_start","params":[],"id":1}');
+		gethWebSocket.send('{"wsjson":"0.0.1","method":"miner_start","params":[],"id":1}');
 	});
 
 	$("#stopMinerBtn").click(function() {
-		gethWebSocket.send('{"jsonrpc":"0.0.1","method":"miner_stop","params":[],"id":1}');
+		gethWebSocket.send('{"wsjson":"0.0.1","method":"miner_stop","params":[],"id":1}');
 	});
 
 	$("#getHashrateBtn").click(function() {
-		gethWebSocket.send('{"jsonws":"0.0.1","method":"miner_hashrate","params":[],"id":1}');
+		gethWebSocket.send('{"wsjson":"0.0.1","method":"miner_hashrate","params":[],"id":1}');
 	});
-
+    
+    $("#importPresaleWalletBtn").click(function() {
+        // ask for password, for now hard coded to "TEST"
+        chooseFile("#presaleWalletImportDialog", function(path) {
+            if (path != null && path.length > 0) {
+                var req = '{"wsjson":"0.0.1","id":"1", "method":"import_presale_wallet","params":["path":"' + path + '", "password": "TEST"]}';
+                console.log(req);
+                gethWebSocket.send(req);
+            }
+        });
+    });
 });
+
