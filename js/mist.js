@@ -1,3 +1,5 @@
+var gui = require('nw.gui');
+
 $(function() {
 
 	var accessToken = "";
@@ -150,6 +152,31 @@ $(function() {
 
 	$("#getHashrateBtn").click(function() {
 		gethWebSocket.send('{"jsonws":"0.0.1","method":"miner_hashrate","params":[],"id":1}');
+	});
+
+
+	$("#minimizeBtn").click(function() {
+		gui.Window.get().minimize();
+	});
+
+	$("#maximizeBtn").click(function() {
+		gui.Window.get().maximize();
+	});
+
+	$("#unmaximizeBtn").click(function() {
+		gui.Window.get().unmaximize();
+	});
+
+	$("#fullScreenBtn").click(function() {
+		gui.Window.get().enterFullscreen();
+	});
+
+	$("#leaveFullscreenBtn").click(function() {
+		gui.Window.get().leaveFullscreen();
+	});	
+
+	$("#exitBtn").click(function() {
+		gui.App.quit();
 	});
 
 });
