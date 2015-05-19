@@ -7,7 +7,9 @@
 	"window": {
 		"toolbar": false,
 		"width": 1250,
-		"height": 700
+		"height": 700,
+        "frame": false,
+        "toolbar": false
 	},
 
 	"dependencies": {

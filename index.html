@@ -6,14 +6,20 @@
 	<head>
 	  <title>Misted</title>
 	  <link rel="stylesheet" href="./css/mist.css">
+        <script src="./js/jquery-2.1.4.min.js"></script>
+		<script src="./js/mist.js"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>        
 	</head>
 
 	<body>
-
-		<script src="./js/jquery-2.1.4.min.js"></script>
-		<script src="./js/mist.js"></script>
-
-		<p>
+        <div class="container">
+        <p>
 			<h2>window management</h2>
 			<button id="minimizeBtn">minimize</button>
 			<button id="maximizeBtn">maximize</button>
@@ -23,31 +29,50 @@
 			<button id="exitBtn">exit</button>
 		<p>
 
-		<p>
-			<h2>Comms stuff</h2>
-			<button id="startGethBtn">Start geth</button>
-			<button id="stopGethBtn">Stop geth</button>
-			<button id="openGethWebsocket">Connect with geth</button>
-			<button id="closeGethWebsocket">Disconnect from geth</button>
-			<button id="loadWalletDappBtn">Load wallet DAPP</button>
-			<button id="startMinerBtn">Start miner</button>
-			<button id="stopMinerBtn">Stop miner</button>
-			<button id="getHashrateBtn">Hashrate</button>
-			<input  id="hashrate" type="number" readonly></input>
-			<button id="toggleEventsBtn">Toggle events</button>
-			<button id="toggleLogBtn">Toggle log</button>
-			<div id="wsstatus">disconnected</div>
-		</p>
-		<p>
-			<iframe id="dapp-wallet" nwdisable nwfaketop nwUserAgent width="100%" height="200"></iframe>
-		</p>  
-	  	<p class="gethEvents">
-	  		<span class="gethEvents">Blockchain events (ws://)</span>
-	  		<div class="gethEvents logging" id="eventlog"></div>
-	  	</p>
-	  	<p class="logPart">
-			<span class="logPart">Geth log (stderr)</span>
-			<div class="logPart logging" id="gethlog"></div>
-		</p>
+            <p>
+            	<h2>Comms stuff</h2>
+                <button id="startGethBtn">Start geth</button>
+                <button id="stopGethBtn">Stop geth</button>
+                <button id="openGethWebsocket">Connect with geth</button>
+                <button id="closeGethWebsocket">Disconnect from geth</button>
+                <button id="loadWalletDappBtn">Load wallet DAPP</button>
+                <button id="startMinerBtn">Start miner</button>
+                <button id="stopMinerBtn">Stop miner</button>
+                <button id="getHashrateBtn">Hashrate</button>
+                <input  id="hashrate" type="number" readonly></input>
+                <button id="toggleEventsBtn">Toggle events</button>
+                <button id="toggleLogBtn">Toggle log</button>
+                <span id="wsstatus">disconnected</span>
+                <input accept=".json" style="display:none" id="presaleWalletImportDialog" type="file" />
+                <button id="importPresaleWalletBtn">Import presale wallet</button>
+            </p>
+            <div class="row">
+                <h3>Menu</h3>
+                <div class="tabbable">
+                    <ul id="menuTabs" class="nav nav-pills nav-stacked col-md-2">
+                        <li class="active"><a href="#walletContent" data-toggle="tab">Wallet</a></li>
+                        <li><a href="#blockChainEventContent" data-toggle="tab">Blockchain</a></li>
+                        <li><a href="#gethLogContent" data-toggle="tab">Logging</a></li>
+                    </ul>
+                    <div class="tab-content col-md-10">
+                        <div class="tab-pane active" id="walletContent">
+                            <iframe id="dapp-wallet" frameborder="0" class="dapp-iframe" src="http://localhost:3000" style="width:100%; position:absolute; frameBorder='0'" height="550" nwdisable nwfaketop nwUserAgent></iframe>
+                        </div>
+                        <div class="tab-pane" id="blockChainEventContent">
+                            <p class="gethEvents">
+                                <span class="gethEvents">Blockchain events (ws://)</span>
+                                <div class="gethEvents logging" id="eventlog"></div>
+                            </p>
+                        </div>
+                        <div class="tab-pane" id="gethLogContent">
+                            <p class="logPart">
+                                <span class="logPart">Geth log (stderr)</span>
+                                <div class="logPart logging" id="gethlog"></div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </div>
 	</body>
 </html>
